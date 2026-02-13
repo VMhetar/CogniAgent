@@ -1,0 +1,216 @@
+Alright. If you’re serious about building this as an accuracy-first, graph-learning MCP agent, here’s a structured, engineering-grade to-do roadmap.
+
+Not vague ideas. Concrete build phases.
+
+🧱 PHASE 1 — Core Foundation (Make It Stable First)
+✅ 1. Fix Base LLM Tool
+
+Clean async OpenRouter call
+
+Proper error handling
+
+Timeout handling
+
+Return structured JSON:
+
+{
+    "output": "...",
+    "raw_confidence": None
+}
+
+✅ 2. Add Planning Layer (Before Calling LLM Directly)
+
+Create:
+
+async def generate_plan(task: str) -> dict:
+
+
+Output should be a simple DAG:
+
+{
+  "nodes": [
+    {"id": 1, "type": "analysis", "content": "..."},
+    {"id": 2, "type": "execution", "depends_on": 1}
+  ]
+}
+
+
+Don’t overcomplicate yet.
+
+Just:
+
+Break task into steps.
+
+No learning yet.
+
+✅ 3. Execution Engine
+
+Write:
+
+async def execute_graph(graph: dict) -> dict:
+
+
+For each node:
+
+Call LLM
+
+Store result
+
+Track execution order
+
+Return:
+
+{
+  "node_outputs": {...},
+  "final_output": "...",
+}
+
+🔍 PHASE 2 — Add Accuracy Layer (Core Differentiator)
+
+Now we make it serious.
+
+✅ 4. Self-Consistency Module
+
+For important nodes:
+
+Run LLM 2–3 times
+
+Compare outputs
+
+Measure similarity
+
+Score:
+
+agreement_ratio = matching_outputs / total_runs
+
+✅ 5. Verification Layer
+
+Add verification nodes:
+
+Recompute result differently
+
+Ask model to critique previous output
+
+Check contradictions
+
+Example node type:
+
+{"type": "verify", "target_node": 2}
+
+✅ 6. Confidence Scoring System
+
+Combine:
+
+Self-consistency score
+
+Verification agreement
+
+Historical reliability (later)
+
+Deterministic validation (if possible)
+
+If confidence < threshold:
+→ Refuse answer.
+
+🧠 PHASE 3 — Graph Memory (Where It Becomes Unique)
+
+Now we add your structural learning.
+
+✅ 7. Store Graph Templates
+
+Use:
+
+PostgreSQL (JSONB)
+or
+
+Simple local JSON file first
+
+Store:
+
+{
+  "task_type": "research",
+  "graph_template": {...},
+  "success_rate": 0.82,
+  "fail_nodes": [...]
+}
+
+✅ 8. Task Classifier
+
+Simple LLM classifier:
+
+task_type = classify(task)
+
+
+Use this to:
+
+Retrieve past graph templates
+
+Improve plan generation
+
+✅ 9. Graph Mutation Logic
+
+If failure occurs:
+
+Identify weak node
+
+Insert validation step
+
+Increase verification depth next time
+
+That’s structural evolution.
+
+🚀 PHASE 4 — Refusal + Escalation System
+
+Since you're accuracy-first:
+
+✅ 10. Output Gate
+
+Before returning result:
+
+if confidence < threshold:
+    return {"status": "refused"}
+
+✅ 11. Escalation Strategy
+
+Instead of immediate refusal:
+
+Expand graph
+
+Add extra verification
+
+Retry once
+
+Then refuse
+
+This feels intelligent.
+
+🌐 PHASE 5 — Web Deployment
+✅ 12. Backend
+
+FastAPI
+
+Async MCP agent wrapper
+
+✅ 13. Frontend
+
+Show task graph live
+
+Show node confidence
+
+Show refusal reason
+
+This transparency = trust.
+
+🧬 PHASE 6 — Advanced (Optional, Research Level)
+
+Only after everything above works:
+
+Bayesian confidence update
+
+Node-level reliability scoring
+
+Subgraph reuse frequency tracking
+
+Graph pruning algorithm
+
+DAG compression logic
