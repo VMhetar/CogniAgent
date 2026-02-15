@@ -1,9 +1,5 @@
-Alright. If you’re serious about building this as an accuracy-first, graph-learning MCP agent, here’s a structured, engineering-grade to-do roadmap.
-
-Not vague ideas. Concrete build phases.
-
-🧱 PHASE 1 — Core Foundation (Make It Stable First)
-✅ 1. Fix Base LLM Tool
+PHASE 1 — Core Foundation (Make It Stable First)
+ 1. Fix Base LLM Tool
 
 Clean async OpenRouter call
 
@@ -18,8 +14,7 @@ Return structured JSON:
     "raw_confidence": None
 }
 
-✅ 2. Add Planning Layer (Before Calling LLM Directly)
-
+2. Add Planning Layer (Before Calling LLM Directly)
 Create:
 
 async def generate_plan(task: str) -> dict:
@@ -43,7 +38,7 @@ Break task into steps.
 
 No learning yet.
 
-✅ 3. Execution Engine
+3. Execution Engine
 
 Write:
 
@@ -65,11 +60,11 @@ Return:
   "final_output": "...",
 }
 
-🔍 PHASE 2 — Add Accuracy Layer (Core Differentiator)
+PHASE 2 — Add Accuracy Layer (Core Differentiator)
 
 Now we make it serious.
 
-✅ 4. Self-Consistency Module
+4. Self-Consistency Module
 
 For important nodes:
 
