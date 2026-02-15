@@ -14,7 +14,7 @@ class LLMClient:
         }
 
         data = {
-            "model": "openai/gpt-4o-mini",
+            "model": "openai/gpt-3.5-turbo",
             "messages": [{"role": "user", "content": prompt}]
         }
 
